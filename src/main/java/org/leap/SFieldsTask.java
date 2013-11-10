@@ -12,8 +12,8 @@ import com.sforce.soap.partner.Field;
 import com.sforce.ws.ConnectionException;
 
 public class SFieldsTask extends LeapTask {
-	private String class_template_url = "https://api.github.com/repos/cubiccompass/leap/contents/templates/src/classes/SObjectFields.cls";
-	private String meta_template_url = "https://api.github.com/repos/cubiccompass/leap/contents/templates/src/classes/SObjectFields.cls-meta.xml";
+	private String class_template_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/SObjectFields.cls";
+	private String meta_template_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/SObjectFields.cls-meta.xml";
 	private String ROW_TEMPLATE	= "public static final String {{object_name}} = '{{field_list}}';";
 	private String MERGE_TEMPLATE_TAG = "{placeholder}";
     
