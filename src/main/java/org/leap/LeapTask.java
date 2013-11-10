@@ -10,6 +10,8 @@ import com.sforce.soap.partner.DescribeGlobalSObjectResult;
 import com.sforce.ws.ConnectionException;
 
 public class LeapTask extends Task {
+	protected String metaClassURL 	= "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/ApexClassTemplate.cls-meta.xml";
+	protected String metaTriggerURL = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/triggers/TriggerTemplate.trigger-meta.xml";
 	
 	String projectRootFolder = null;
 	public void setProjectRoot(String root){

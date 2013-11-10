@@ -13,7 +13,6 @@ import com.sforce.ws.ConnectionException;
 
 public class SFieldsTask extends LeapTask {
 	private String class_template_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/SObjectFields.cls";
-	private String meta_template_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/SObjectFields.cls-meta.xml";
 	private String ROW_TEMPLATE	= "public static final String {{object_name}} = '{{field_list}}';";
 	private String MERGE_TEMPLATE_TAG = "{placeholder}";
     
@@ -77,7 +76,7 @@ public class SFieldsTask extends LeapTask {
     private GitHubContent m_metaTemplate = null;
     protected GitHubContent getMetaTemplate(){
     	if(m_metaTemplate == null){
-    		m_metaTemplate = GitHubContent.get(this.meta_template_url);
+    		m_metaTemplate = GitHubContent.get(this.metaClassURL);
     	}
     	return m_metaTemplate;
     }

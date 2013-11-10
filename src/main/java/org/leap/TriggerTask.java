@@ -8,10 +8,7 @@ import java.util.List;
 
 public class TriggerTask extends LeapTask {
 	private String trigger_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/triggers/TriggerTemplate.trigger";
-	private String meta_trigger_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/triggers/TriggerTemplate.trigger-meta.xml";
-	
 	private String class_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/TriggerHandlerTemplate.cls";
-	private String meta_class_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/ApexClassTemplate.cls-meta.xml";			
 	
 	public void execute() {
 		List<String> generatedFiles = new ArrayList<String>();
@@ -119,7 +116,7 @@ public class TriggerTask extends LeapTask {
     private GitHubContent m_classMetaTemplate = null;
     protected GitHubContent getClassMetaTemplate(){
     	if(m_classMetaTemplate == null){
-    		m_classMetaTemplate = GitHubContent.get(this.meta_class_url);
+    		m_classMetaTemplate = GitHubContent.get(this.metaClassURL);
     	}
     	return m_classMetaTemplate;
     }
@@ -135,7 +132,7 @@ public class TriggerTask extends LeapTask {
     private GitHubContent m_triggerMetaTemplate = null;
     protected GitHubContent getTriggerMetaTemplate(){
     	if(m_triggerMetaTemplate == null){
-    		m_triggerMetaTemplate = GitHubContent.get(this.meta_trigger_url);
+    		m_triggerMetaTemplate = GitHubContent.get(this.metaTriggerURL);
     	}
     	return m_triggerMetaTemplate;
     }
