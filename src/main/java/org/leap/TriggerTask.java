@@ -11,7 +11,7 @@ public class TriggerTask extends LeapTask {
 	private String meta_trigger_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/triggers/TriggerTemplate.trigger-meta.xml";
 	
 	private String class_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/TriggerHandlerTemplate.cls";
-	private String meta_class_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/TriggerHandlerTemplate.cls-meta.xml";			
+	private String meta_class_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/ApexClassTemplate.cls-meta.xml";			
 	
 	public void execute() {
 		List<String> generatedFiles = new ArrayList<String>();

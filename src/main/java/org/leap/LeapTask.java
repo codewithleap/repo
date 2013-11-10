@@ -150,9 +150,8 @@ public class LeapTask extends Task {
 	
 	// deploy the generated files with Metadata connection
 	protected void deployGeneratedFiles(List<String> metadataFiles) {
-		
 		MetadataConnection metadataConnection = salesforceConnection().getMetadataConnection();
-
+		
 		try {
 			MetadataDeployer metadataDeployer = new MetadataDeployer(api, metadataConnection);
 			metadataDeployer.deployMetadataFiles(metadataFiles);
