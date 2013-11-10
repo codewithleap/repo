@@ -12,7 +12,7 @@ import com.sforce.soap.partner.Field;
 import com.sforce.ws.ConnectionException;
 
 public class SFieldsTask extends LeapTask {
-	private String class_template_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/SObjectFields.cls";
+	private String class_template_url = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/LeapSFieldsTemplate.cls";
 	private String ROW_TEMPLATE	= "public static final String {{object_name}} = '{{field_list}}';";
 	private String MERGE_TEMPLATE_TAG = "{placeholder}";
     
@@ -30,7 +30,7 @@ public class SFieldsTask extends LeapTask {
 		this.validateConnectionParams();
 		
 		Integer recordCount = (this.limit == -1 ? this.sObjects().length : this.limit);
-		System.out.println("Generating SObjectFields.cls file for " + recordCount + " objects...");
+		System.out.println("Generating LeapSFields.cls file for " + recordCount + " objects...");
 		
 		String fieldContent = this.getSFieldEntries();
 		String finalOutput = this.getClassTemplate().decodedContent()
@@ -38,13 +38,13 @@ public class SFieldsTask extends LeapTask {
 		
 		PrintWriter writer = null;
 		try {
-			String classFileName = this.getProjectRoot() + "classes/SObjectFields.cls";
+			String classFileName = this.getProjectRoot() + "classes/LeapSFields.cls";
 			writer = new PrintWriter(classFileName, "UTF-8");
 			writer.write( finalOutput );
 			writer.close();
 			System.out.println("Created " + classFileName);
 			
-			String metaFileName = this.getProjectRoot() + "classes/SObjectFields.cls-meta.xml";
+			String metaFileName = this.getProjectRoot() + "classes/LeapSFields.cls-meta.xml";
 			writer = new PrintWriter(metaFileName, "UTF-8");
 			writer.write( this.getMetaTemplate().decodedContent() );
 			writer.close();
