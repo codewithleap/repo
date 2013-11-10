@@ -1,0 +1,7 @@
+<antlib>
+	<typedef name="helloworld" classname="org.leap.HelloWorld"/>
+	<typedef name="leapsfields" classname="org.leap.SFieldsTask"/>
+	<typedef name="leaptriggers" classname="org.leap.TriggerTask"/>
+	<typedef name="leapwrappers" classname="org.leap.WrapperTask"/>
+	<typedef name="leapmetadiff" classname="org.leap.MetaDiffTask"/>
+</antlib>
