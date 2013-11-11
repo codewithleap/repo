@@ -1,4 +1,5 @@
 package org.leap;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
@@ -92,9 +93,25 @@ public class LeapTask extends Task {
     	namespace = ns;
     }
     
-    String object;
-    public void setObject(String obj) {
-    	object = obj;
+    String objects = "all";
+    public void setObjects(String objConfig) {
+    	objects = objConfig;
+    }
+    
+    private List<String> m_objectList = null;
+    public List<String> objectList(){
+    	if(m_objectList == null){
+    		m_objectList = new ArrayList<String>();
+    		if(this.objects == null || objects.equals("all")){
+    			m_objectList.add("all");
+    		} else {
+	    		for(String obj : objects.split(",")){
+	    			obj = obj.replaceAll(" ", "");
+	    			m_objectList.add(obj);
+	    		}
+    		}
+    	}
+    	return m_objectList;
     }
     
     String className;

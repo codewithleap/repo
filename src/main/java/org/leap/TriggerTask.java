@@ -22,9 +22,9 @@ public class TriggerTask extends LeapTask {
 			}
 			
 			try {
-				this.generateTriggerFiles(this.sObjects()[i]);
-				this.generateTriggerHandlerFiles(sObjects()[i]);
-				this.generateTestFiles(sObjects()[i]);
+				this.generateTriggerFile(this.sObjects()[i]);
+				this.generateTriggerHandlerFile(sObjects()[i]);
+				this.generateTestFile(sObjects()[i]);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
@@ -37,7 +37,7 @@ public class TriggerTask extends LeapTask {
 		}
 	}
 	
-	private void generateTriggerFiles(DescribeGlobalSObjectResult sobject) throws FileNotFoundException, UnsupportedEncodingException{
+	private void generateTriggerFile(DescribeGlobalSObjectResult sobject) throws FileNotFoundException, UnsupportedEncodingException{
 		String triggerTemplate = this.getLeapTriggerTemplate().content;
 		triggerTemplate	= triggerTemplate.replace("{{object_name}}", sobject.getName())
 					.replace("{{class_name}}", formattedName(sobject.getName()));
@@ -63,7 +63,7 @@ public class TriggerTask extends LeapTask {
 		System.out.println("Created " + triggerMetaFileName);
 	}
 	
-	private void generateTriggerHandlerFiles(DescribeGlobalSObjectResult sobject) throws FileNotFoundException, UnsupportedEncodingException{
+	private void generateTriggerHandlerFile(DescribeGlobalSObjectResult sobject) throws FileNotFoundException, UnsupportedEncodingException{
 		String classTemplate = this.getLeapClassTemplate().content;
 		classTemplate	= classTemplate.replace("{{object_name}}", sobject.getName())
 					.replace("{{class_name}}", formattedName(sobject.getName()));
@@ -93,7 +93,7 @@ public class TriggerTask extends LeapTask {
 		System.out.println("Created " + handlerMetaFileName);
 	}
 	
-	private void generateTestFiles(DescribeGlobalSObjectResult sobject) throws FileNotFoundException, UnsupportedEncodingException{
+	private void generateTestFile(DescribeGlobalSObjectResult sobject) throws FileNotFoundException, UnsupportedEncodingException{
 		String testTemplate = this.getLeapTestTemplate().content;
 		testTemplate = testTemplate.replace("{{object_name}}", sobject.getName())
 					.replace("{{class_name}}", formattedName(sobject.getName()));

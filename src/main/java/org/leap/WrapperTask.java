@@ -1,5 +1,6 @@
 package org.leap;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -26,6 +27,7 @@ public class WrapperTask extends LeapTask {
 			ex.printStackTrace();
 		}
 		
+		System.out.println("Objects: " + this.objects);
 		for (int i = 0; i < this.sObjects().length; i++) {
 			if( objectIsIgnored(sObjects()[i].getName()) ){
 				continue;
@@ -55,8 +57,14 @@ public class WrapperTask extends LeapTask {
 		writer.write( contentTemplate );
 		writer.close();
 		System.out.println("Created " + fileName);
+		
+		String metaFileName = this.getProjectRoot() + "classes/LeapWrapperBase.cls-meta.xml";
+		generatedFiles.add(metaFileName);
+		writer = new PrintWriter(metaFileName, "UTF-8");
+		writer.write( this.getLeapMetaClassTemplate().content );
+		writer.close();
+		System.out.println("Created " + metaFileName);
 	}
-	
 	
 	private void generateWrapperClass(DescribeGlobalSObjectResult sobject) throws FileNotFoundException, UnsupportedEncodingException{
 		String contentTemplate = this.getLeapClassTemplate().content;
@@ -67,6 +75,10 @@ public class WrapperTask extends LeapTask {
 		if(fileName.length() > this.MAX_FILE_NAME_SIZE){
 			fileName = this.truncateFileName(fileName);
 		}
+		
+		File f = new File(fileName);
+		if(f.exists()){ return; } // Do not overwrite if already generated
+		
 		generatedFiles.add(fileName);
 		PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 		writer.write( contentTemplate );
@@ -93,6 +105,10 @@ public class WrapperTask extends LeapTask {
 		if(fileName.length() > this.MAX_FILE_NAME_SIZE){
 			fileName = this.truncateFileName(fileName);
 		}
+		
+		File f = new File(fileName);
+		if(f.exists()){ return; } // Do not overwrite if already generated
+		
 		generatedFiles.add(fileName);
 		PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 		writer.write( contentTemplate );
@@ -113,7 +129,7 @@ public class WrapperTask extends LeapTask {
 	private LeapTemplate m_leapBaseClassTemplate = null;
 	public LeapTemplate getLeapBaseClassTemplate(){
     	if(m_leapBaseClassTemplate == null){
-    		m_leapBaseClassTemplate = new LeapTemplate().withContent( this.getClassTemplate().decodedContent() );
+    		m_leapBaseClassTemplate = new LeapTemplate().withContent( this.getBaseClassTemplate().decodedContent() );
     	}
     	return m_leapBaseClassTemplate;
     }
@@ -178,7 +194,7 @@ public class WrapperTask extends LeapTask {
 		return name.replaceAll("__c", "").replaceAll("_", "");
 	}
 	
-	private String[] ignoreList = {"Partner", "CollaborationGroup", "CollaborationGroupMember"};
+	private String[] ignoreList = {"Partner", "CollaborationGroup", "CollaborationGroupMember", "CollaborationGroupMemberRequest"};
     private boolean objectIsIgnored(String name){
     	for(String object : ignoreList){
     		if(object.equals(name)){
