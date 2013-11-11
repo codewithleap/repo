@@ -164,7 +164,21 @@ public class LeapTask extends Task {
 		} catch(Exception e) {
 			System.out.println("Deploying files failed with "+ e.getMessage() +", deploy is aborted");
 			//e.printStackTrace();
+		}    
+	}
+	
+	protected String getFormattedObjectName(DescribeGlobalSObjectResult sobject){
+		String objectName = "";
+		String[] objectTokens = sobject.getName().split("__");		
+		if(objectTokens.length == 1){ 		// Example "Account"
+			objectName = sobject.getName();
 		}
-    	
+		else if(objectTokens.length == 2){	// Example "Order__c"
+			objectName = objectTokens[0];
+		}
+		else if(objectTokens.length == 3){	// Example "ISV__Order__c"
+			objectName = objectTokens[2];
+		}
+		return objectName.toUpperCase();
 	}
 }

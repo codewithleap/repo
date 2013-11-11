@@ -96,7 +96,7 @@ public class SFieldsTask extends LeapTask {
 			//if(this.customOnly && this.sObjects()[i].isCustom()){ continue;}
 			if(this.limit != -1 && counter++ > this.limit){ break;}
 			
-			String object_name = "ALL_" + this.getObjectName(this.sObjects()[i]) + "_FIELDS";
+			String object_name = "ALL_" + this.getFormattedObjectName(this.sObjects()[i]) + "_FIELDS";
 			String sfieldTemplate = this.ROW_TEMPLATE;
 			sfieldTemplate = sfieldTemplate.replace("{{object_name}}", object_name);
 			
@@ -120,20 +120,5 @@ public class SFieldsTask extends LeapTask {
 			output += "\t" + sfieldTemplate + "\n";
 		}
 		return output;
-	}
-	
-	private String getObjectName(DescribeGlobalSObjectResult sobject){
-		String objectName = "";
-		String[] objectTokens = sobject.getName().split("__");		
-		if(objectTokens.length == 1){ 		// Example "Account"
-			objectName = sobject.getName();
-		}
-		else if(objectTokens.length == 2){	// Example "Order__c"
-			objectName = objectTokens[0];
-		}
-		else if(objectTokens.length == 3){	// Example "ISV__Order__c"
-			objectName = objectTokens[2];
-		}
-		return objectName.toUpperCase();
 	}
 }
