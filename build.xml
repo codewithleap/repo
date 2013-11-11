@@ -17,15 +17,15 @@
     </macrodef>
 
 	<target name="leapsfields">
-		<leap:leapsfields username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" />
+		<leap:leapsfields username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" objects="Lead,Contact,Account,Opportunity,Order__c" />
 	</target>
 	
 	<target name="leaptriggers">
-		<leap:leaptriggers username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" />
+		<leap:leaptriggers username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" objects="Lead,Contact,Account,Opportunity,Order__c" />
 	</target>
 	
 	<target name="leapwrappers">
-		<leap:leapwrappers username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" />
+		<leap:leapwrappers username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" objects="Lead,Contact,Account,Opportunity,Order__c" />
 	</target>
 
 	<target name="leapmetadiff">

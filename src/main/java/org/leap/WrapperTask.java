@@ -32,7 +32,9 @@ public class WrapperTask extends LeapTask {
 			if( objectIsIgnored(sObjects()[i].getName()) ){
 				continue;
 			}
-			
+			if(!this.objects.equals("all") && !this.objectList().contains(sObjects()[i].getName())){
+				continue;
+			}
 			try {
 				this.generateWrapperClass(this.sObjects()[i]);				
 				this.generateTestFile(sObjects()[i]);

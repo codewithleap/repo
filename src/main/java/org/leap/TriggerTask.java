@@ -16,8 +16,12 @@ public class TriggerTask extends LeapTask {
 	List<String> generatedFiles = new ArrayList<String>();
 	
 	public void execute() {
+		System.out.println("Objects: " + this.objects);
 		for (int i = 0; i < this.sObjects().length; i++) {
 			if( !sObjects()[i].getTriggerable() || this.objectIsIgnored(sObjects()[i].getName()) ){
+				continue;
+			}
+			if(!this.objects.equals("all") && !this.objectList().contains(sObjects()[i].getName())){
 				continue;
 			}
 			
