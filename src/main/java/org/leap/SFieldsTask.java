@@ -30,7 +30,7 @@ public class SFieldsTask extends LeapTask {
 		this.validateConnectionParams();
 		
 		Integer recordCount = (this.limit == -1 ? this.sObjects().length : this.limit);
-		System.out.println("Generating LeapSFields.cls file for " + recordCount + " objects...");
+		System.out.println("Generating LeapSFields.cls file for objects: " + this.objects + "...");
 		
 		String fieldContent = this.getSFieldEntries();
 		String finalOutput = this.getClassTemplate().decodedContent()
