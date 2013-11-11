@@ -127,10 +127,6 @@ public class TriggerTask extends LeapTask {
 		return name.replaceAll("__c", "").replaceAll("_", "");
 	}
 	
-	private String truncateFileName(String fName){
-		return fName.substring(0, this.MAX_FILE_NAME_SIZE);
-	}
-	
 	private LeapTemplate m_leapClassTemplate = null;
     public LeapTemplate getLeapClassTemplate(){
     	if(m_leapClassTemplate == null){

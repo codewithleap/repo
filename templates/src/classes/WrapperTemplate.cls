@@ -1,6 +1,6 @@
 public with sharing class SFDC{{formatted_name}} extends LeapWrapperBase {
 	public {{object_name}} record   = null;
-	public static final String SFIELDS = LeapSFields.ALL_ACCOUNT_FIELDS;
+	public static final String SFIELDS = LeapSFields.ALL_{{formatted_name}}_FIELDS;
     
 	public SFDC{{formatted_name}}(){}
 	

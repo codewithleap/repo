@@ -167,6 +167,10 @@ public class LeapTask extends Task {
 		}    
 	}
 	
+	protected String truncateFileName(String fName){
+		return fName.substring(0, this.MAX_FILE_NAME_SIZE);
+	}
+	
 	protected String getFormattedObjectName(DescribeGlobalSObjectResult sobject){
 		String objectName = "";
 		String[] objectTokens = sobject.getName().split("__");		
