@@ -1,4 +1,4 @@
-trigger {{class_name}}Trigger on {{object_name}} (after delete, after insert, after undelete, after update, before delete, before insert, before update) {
+trigger Leap{{class_name}}Trigger on {{object_name}} (after delete, after insert, after undelete, after update, before delete, before insert, before update) {
 	{{class_name}}TriggerHandler handler = new {{class_name}}TriggerHandler(Trigger.isExecuting, Trigger.size);
 	
 	if(Trigger.isInsert && Trigger.isBefore){

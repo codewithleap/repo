@@ -10,6 +10,7 @@ import com.sforce.soap.partner.DescribeGlobalSObjectResult;
 import com.sforce.ws.ConnectionException;
 
 public class LeapTask extends Task {
+	protected final int MAX_FILE_NAME_SIZE = 255;
 	protected String metaClassURL 	= "https://api.github.com/repos/codewithleap/repo/contents/templates/src/classes/ApexClassTemplate.cls-meta.xml";
 	protected String metaTriggerURL = "https://api.github.com/repos/codewithleap/repo/contents/templates/src/triggers/TriggerTemplate.trigger-meta.xml";
 	
@@ -152,6 +153,9 @@ public class LeapTask extends Task {
 	
 	// deploy the generated files with Metadata connection
 	protected void deployGeneratedFiles(List<String> metadataFiles) {
+		if(metadataFiles == null || metadataFiles.size() == 0){
+			return;
+		}
 		MetadataConnection metadataConnection = salesforceConnection().getMetadataConnection();
 		
 		try {
@@ -159,7 +163,7 @@ public class LeapTask extends Task {
 			metadataDeployer.deployMetadataFiles(metadataFiles);
 		} catch(Exception e) {
 			System.out.println("Deploying files failed with "+ e.getMessage() +", deploy is aborted");
-//			e.printStackTrace();
+			//e.printStackTrace();
 		}
     	
 	}
