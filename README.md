@@ -75,5 +75,9 @@ From the command line of any Salesforce development environment:
 	&lt;target name="leapwrappers"&gt;
 		&lt;leap:leapwrappers username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" objects="Lead,Contact,Account,Opportunity,Order__c" /&gt;
 	&lt;/target&gt;
+	
+	&lt;target name="leapmetadiff"&gt;
+		&lt;leap:leapmetadiff srcFolder="${sf.dev.srcFolder}" destFolder="${sf.prod.srcFolder}" outFolder="${sf.outFolder}"  username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}"/&gt;
+	&lt;/target&gt;	
 &lt;/project&gt;
 </pre>
