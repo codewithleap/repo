@@ -10,8 +10,10 @@
 	public void OnBeforeInsert({{object_name}}[] newRecords){
 		//Example usage
 		for({{object_name}} newRecord : newRecords){
-			//if(newAccount.AnnualRevenue == null){
-			//	newAccount.AnnualRevenue.addError('Missing annual revenue');
+			//SFDC{{class_name}} obj = new SFDC{{class_name}}().withSObject(newRecord).validate();
+			//if(obj.hasErrors()){
+			//for(String err : obj.errors){
+			//   newRecord.addError(err);
 			//}
 		}
 	}
