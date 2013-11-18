@@ -12,8 +12,9 @@
 		for({{object_name}} newRecord : newRecords){
 			//SFDC{{class_name}} obj = new SFDC{{class_name}}().withSObject(newRecord).validate();
 			//if(obj.hasErrors()){
-			//for(String err : obj.errors){
-			//   newRecord.addError(err);
+			//	for(String err : obj.errors){
+			//   		newRecord.addError(err);
+			//	}
 			//}
 		}
 	}
