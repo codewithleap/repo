@@ -30,21 +30,26 @@ public class SFieldsTask extends LeapTask {
 		this.validateConnectionParams();
 		
 		Integer recordCount = (this.limit == -1 ? this.sObjects().length : this.limit);
-		System.out.println("Generating LeapSFields.cls file for objects: " + this.objects + "...");
+		System.out.println("Generating Apex class file for objects: " + this.objects + "...");
 		
 		String fieldContent = this.getSFieldEntries();
 		String finalOutput = this.getClassTemplate().decodedContent()
-				.replace(MERGE_TEMPLATE_TAG, fieldContent);
+			.replace(MERGE_TEMPLATE_TAG, fieldContent);
+		
+		if(this.targetFileName != null){
+			finalOutput = finalOutput.replaceAll("class LeapSFields", "class " + this.targetFileName);
+		}
 		
 		PrintWriter writer = null;
 		try {
-			String classFileName = this.getProjectRoot() + "classes/LeapSFields.cls";
+			String fileName = (this.targetFileName != null ? this.targetFileName : "LeapSFields");
+			String classFileName = this.getProjectRoot() + "classes/" + fileName + ".cls";
 			writer = new PrintWriter(classFileName, "UTF-8");
 			writer.write( finalOutput );
 			writer.close();
 			System.out.println("Created " + classFileName);
 			
-			String metaFileName = this.getProjectRoot() + "classes/LeapSFields.cls-meta.xml";
+			String metaFileName = this.getProjectRoot() + "classes/" + fileName + ".cls-meta.xml";
 			writer = new PrintWriter(metaFileName, "UTF-8");
 			writer.write( this.getMetaTemplate().decodedContent() );
 			writer.close();

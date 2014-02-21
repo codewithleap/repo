@@ -40,6 +40,7 @@ public class LeapTask extends Task {
 			result += p + "/";
 		}
 		result += "src/";
+		System.out.println("Using root folder location: " + result);
 		return result;
 	}
 	
@@ -96,6 +97,11 @@ public class LeapTask extends Task {
     String objects = "all";
     public void setObjects(String objConfig) {
     	objects = objConfig;
+    }
+    
+    String targetFileName;
+    public void setTargetFileName(String fname){
+    	this.targetFileName = fname;
     }
     
     private List<String> m_objectList = null;
