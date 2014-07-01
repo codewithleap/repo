@@ -94,6 +94,14 @@ public class LeapTask extends Task {
     	namespace = ns;
     }
     
+    protected String getNamespace(){
+		if(this.namespace != null && !this.namespace.equals("")){
+			return this.namespace;
+		} else {
+			return "SFDC";
+		}
+	}
+    
     String objects = "all";
     public void setObjects(String objConfig) {
     	objects = objConfig;
@@ -113,11 +121,32 @@ public class LeapTask extends Task {
     		} else {
 	    		for(String obj : objects.split(",")){
 	    			obj = obj.replaceAll(" ", "");
-	    			m_objectList.add(obj);
+	    			m_objectList.add(obj.toLowerCase());
 	    		}
     		}
     	}
     	return m_objectList;
+    }
+    
+    String ignoreFields = "all";
+    public void setIgnoreFields(String fields) {
+    	ignoreFields = fields;
+    }
+    
+    private List<String> m_fieldList = null;
+    public List<String> ignoreFieldList(){
+    	if(m_fieldList == null){
+    		m_fieldList = new ArrayList<String>();
+    		if(this.ignoreFields == null || this.ignoreFields.equals("")){
+    			return m_fieldList;
+    		} else {
+	    		for(String f : this.ignoreFields.split(",")){
+	    			f = f.replaceAll(" ", "");
+	    			m_fieldList.add(f.toLowerCase());
+	    		}
+    		}
+    	}
+    	return m_fieldList;
     }
     
     String className;

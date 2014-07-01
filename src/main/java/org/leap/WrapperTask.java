@@ -32,7 +32,7 @@ public class WrapperTask extends LeapTask {
 			if( objectIsIgnored(sObjects()[i].getName()) ){
 				continue;
 			}
-			if(!this.objects.equals("all") && !this.objectList().contains(sObjects()[i].getName())){
+			if(!this.objects.equals("all") && !this.objectList().contains(sObjects()[i].getName().toLowerCase() )){
 				continue;
 			}
 			try {
@@ -73,7 +73,7 @@ public class WrapperTask extends LeapTask {
 		contentTemplate	= contentTemplate.replace("{{object_name}}", sobject.getName())
 					.replace("{{formatted_name}}", formattedName(sobject.getName()));
 		
-		String fileName = this.getProjectRoot() + "classes/SFDC" + formattedName(sobject.getName()) + ".cls";
+		String fileName = this.getProjectRoot() + "classes/" + this.getNamespace() + formattedName(sobject.getName()) + ".cls";
 		if(fileName.length() > this.MAX_FILE_NAME_SIZE){
 			fileName = this.truncateFileName(fileName);
 		}
@@ -87,7 +87,7 @@ public class WrapperTask extends LeapTask {
 		writer.close();
 		System.out.println("Created " + fileName);
 		
-		String metaFileName = this.getProjectRoot() + "classes/SFDC" + formattedName(sobject.getName()) + ".cls-meta.xml";
+		String metaFileName = this.getProjectRoot() + "classes/" + this.getNamespace() + formattedName(sobject.getName()) + ".cls-meta.xml";
 		if(metaFileName.length() > this.MAX_FILE_NAME_SIZE){
 			metaFileName = this.truncateFileName(metaFileName);
 		}
@@ -103,7 +103,7 @@ public class WrapperTask extends LeapTask {
 		contentTemplate	= contentTemplate.replace("{{object_name}}", sobject.getName())
 					.replace("{{formatted_name}}", formattedName(sobject.getName()));
 		
-		String fileName = this.getProjectRoot() + "classes/SFDC" + formattedName(sobject.getName()) + "_Tests.cls";
+		String fileName = this.getProjectRoot() + "classes/" + this.getNamespace() + formattedName(sobject.getName()) + "_Tests.cls";
 		if(fileName.length() > this.MAX_FILE_NAME_SIZE){
 			fileName = this.truncateFileName(fileName);
 		}
@@ -117,7 +117,7 @@ public class WrapperTask extends LeapTask {
 		writer.close();
 		System.out.println("Created " + fileName);
 		
-		String metaFileName = this.getProjectRoot() + "classes/SFDC" + formattedName(sobject.getName()) + "_Tests.cls-meta.xml";
+		String metaFileName = this.getProjectRoot() + "classes/" + this.getNamespace() + formattedName(sobject.getName()) + "_Tests.cls-meta.xml";
 		if(metaFileName.length() > this.MAX_FILE_NAME_SIZE){
 			metaFileName = this.truncateFileName(metaFileName);
 		}
@@ -202,6 +202,9 @@ public class WrapperTask extends LeapTask {
     		if(object.equals(name)){
     			return true;
     		}
+    	}
+    	if(this.objectList().size() > 0 && !this.objectList().contains(name.toLowerCase())){
+    		return true;
     	}
     	return false;
     }

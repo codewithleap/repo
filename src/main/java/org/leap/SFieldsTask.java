@@ -98,7 +98,7 @@ public class SFieldsTask extends LeapTask {
 		String output = "";
 		Integer counter = 0;		
 		for (int i = 0; i < this.sObjects().length; i++) {
-			if(!this.objects.equals("all") && !this.objectList().contains(sObjects()[i].getName())){
+			if(!this.objects.equals("all") && !this.objectList().contains(sObjects()[i].getName().toLowerCase() )){
 				continue;
 			}
 			if(this.limit != -1 && counter++ > this.limit){ break;}
@@ -120,6 +120,9 @@ public class SFieldsTask extends LeapTask {
 			
 			for (int j = 0; j < fields.length; j++) {
 				Field field = fields[j];
+				if(this.ignoreFieldList().size() > 0 && this.ignoreFieldList().contains(field.getName().toLowerCase() )){
+					continue;
+				}
 				field_list += field.getName() + ",";
 			}
 			field_list = field_list.substring(0, field_list.length() - 1);
