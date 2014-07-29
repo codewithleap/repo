@@ -9,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.tools.ant.BuildException;
 
-
 public class MetaDiffTask extends LeapTask {
     int numCopied = 0;
     
@@ -47,7 +46,7 @@ public class MetaDiffTask extends LeapTask {
 		File outFile = new File(outFolder);
 		
 		if (!srcFile.exists()) {
-			throw new BuildException("The srcFolder does not exisit");
+			throw new BuildException("The srcFolder does not exist");
 		}
 		
 		// clear out folder, prompt if exist
@@ -69,19 +68,16 @@ public class MetaDiffTask extends LeapTask {
 			// traverse srcFolder recursively and copy a file to out folder
 			traverseFileRecursively(srcFile, destFile, outFile);
 		} catch (IOException e) {
-			throw new BuildException("Got an exception while traversing src folder, "+e.getMessage());
+			throw new BuildException("Got an exception while traversing src folder, " + e.getMessage());
 		}
 		
 		System.out.println("Done. Copied "+numCopied+" files.");
 	}
 	
-	private void traverseFileRecursively(File srcFile, File destFile, File outFile) throws IOException {
-		
+	private void traverseFileRecursively(File srcFile, File destFile, File outFile) throws IOException {	
 		if (srcFile.isDirectory()) {
-			
 			File allFiles[] = srcFile.listFiles();
 			for (File aFile : allFiles) {
-				
 				String name = aFile.getName();
 				
 				// moving down in the dest/out folder hierarchy as src folder moves down to child folder or file
@@ -95,7 +91,6 @@ public class MetaDiffTask extends LeapTask {
 				outFile = outFile.getParentFile();
 			}
 		} else if (srcFile.isFile()) {
-			
 			if (destFile.exists()) {
 				boolean copy = false;
 				// compare content by taking hash
@@ -133,8 +128,7 @@ public class MetaDiffTask extends LeapTask {
 				numCopied ++;
 				System.out.println("Copied the src file: "+srcFile.getPath());
 			}
-			
-		} 
+		}
 	}
 
 	private static String getFileHash(File file) throws NoSuchAlgorithmException, IOException {
