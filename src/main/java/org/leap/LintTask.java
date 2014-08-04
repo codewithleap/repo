@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LintTask extends LeapTask {
+	private boolean hasLintError = false;
 	
 	String strMaxFileLines = "500";
     public void setMaxFileLines(String lines) {
@@ -36,8 +37,11 @@ public class LintTask extends LeapTask {
 		try {
 			traverseFileRecursively(srcFile, rootPath);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			if(hasLintError && this.getFailOnError()){
+				System.exit(1); // Use with ant task failonerror="true" to stop builds when lint errors found.
+			}
 		}
 	}
 	
@@ -58,7 +62,8 @@ public class LintTask extends LeapTask {
 		}
 		int numLines = this.countLines(path + "/" + srcFile.getName());
 		if(numLines > Integer.parseInt(this.strMaxFileLines) ){
-			System.out.println("  " + srcFile.getName() + " " + numLines + " lines.");
+			hasLintError = true;
+			System.out.println("  " + srcFile.getName() + " " + numLines + " lines.");			
 		}
 		
 		if(this.isApex( srcFile.getName() )){

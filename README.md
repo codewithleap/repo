@@ -23,15 +23,15 @@ From the command line of any Salesforce development environment:
 	<li>leaptriggers: Generates triggers and Apex trigger handler class(es) for SObjects</li>
 	<li>leapwrappers: Generates wrapper class(es) (in development)</li>
 	<li>leapmetadiff: Compares org files in 2 directories. Copies diff files into a 3rd directory.</li>
-    <li>leaplint: Static analysis of human editable files (*.cls, *.page, *.component, *.trigger, *.resource)
+    <li>leaplint: Static analysis of human editable files (*.cls, *.page, *.component, *.trigger, *.resource)</li>
 </ul>
 
 <h2>Getting started</h2>
 <ul>
 	<li>Download and copy bin/ant-leap.jar into the local Ant library folder (on a Mac this is located at /usr/share/ant/lib).</li>
 	<li>Create build.properties and build.xml files within the root of any Salesforce development project (see example templates below).</li>
-	<li>Enter Salesforce development credentials into build.properties.
-	<li>To test, type "ant leapsfields" to run the leap task that builds a class of field names.
+	<li>Enter Salesforce development credentials into build.properties.</li>
+	<li>To test, type "ant leapsfields" to run the leap task that builds a class of field names.</li>
 </ul>
 
 <h2>Example build.properties</h2>
@@ -83,10 +83,15 @@ From the command line of any Salesforce development environment:
 	&lt;/target&gt;
 
 	&lt;target name="lint"&gt;
-		&lt;leap:lint maxFileLines="500" ignoreFiles="(comma separated list of files to be ignored)" /&gt;
+		&lt;leap:lint maxFileLines="500" ignoreFiles="(comma separated list of files to be ignored)" failonerror="true|false" /&gt;
 	&lt;/target&gt;	
 &lt;/project&gt;
 </pre>
+
+<h2>Attributes</h2>
+Notes on attributes.
+failonerror: When set to "true" will stop the build process.
+
 
 <h2>Open Source</h2>
 Leap is open sourced under the BSD license.

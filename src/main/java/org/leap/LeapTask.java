@@ -102,6 +102,15 @@ public class LeapTask extends Task {
 		}
 	}
     
+    private String failOnError = "false";
+    public void setFailOnError(String f){
+    	this.failOnError = f;
+    }
+    
+    public boolean getFailOnError(){
+    	return Boolean.parseBoolean(this.failOnError);
+    }
+    
     String objects = "all";
     public void setObjects(String objConfig) {
     	objects = objConfig;
