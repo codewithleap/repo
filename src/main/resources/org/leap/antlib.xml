@@ -5,4 +5,5 @@
 	<typedef name="leapwrappers" classname="org.leap.WrapperTask"/>
 	<typedef name="leapmetadiff" classname="org.leap.MetaDiffTask"/>
 	<typedef name="lint" classname="org.leap.LintTask"/>
+	<typedef name="executeAnonymous" classname="org.leap.ExecuteAnonymousTask"/>		
 </antlib>

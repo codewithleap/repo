@@ -23,7 +23,8 @@ From the command line of any Salesforce development environment:
 	<li>leaptriggers: Generates triggers and Apex trigger handler class(es) for SObjects</li>
 	<li>leapwrappers: Generates wrapper class(es) (in development)</li>
 	<li>leapmetadiff: Compares org files in 2 directories. Copies diff files into a 3rd directory.</li>
-    <li>leaplint: Static analysis of human editable files (*.cls, *.page, *.component, *.trigger, *.resource)</li>
+	<li>leaplint: Static analysis of human editable files (*.cls, *.page, *.component, *.trigger, *.resource)</li>
+	<li>executeAnonymous: executes Apex code on the target Salesforce environment.</li>
 </ul>
 
 <h2>Getting started</h2>
@@ -84,6 +85,10 @@ From the command line of any Salesforce development environment:
 
 	&lt;target name="lint"&gt;
 		&lt;leap:lint maxFileLines="500" ignoreFiles="(comma separated list of files to be ignored)" failonerror="true|false" /&gt;
+	&lt;/target&gt;	
+
+	&lt;target name="execAnon"&gt;
+		&lt;leap:executeAnonymous code="MyApexClass.staticMethod();" failonerror="true|false" /&gt;
 	&lt;/target&gt;	
 &lt;/project&gt;
 </pre>

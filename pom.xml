@@ -41,6 +41,11 @@
 		<artifactId>force-metadata-api</artifactId>
 		<version>29.0.0</version>
 	</dependency>
+	<dependency>
+		<groupId>com.force.api</groupId>
+		<artifactId>force-apex-api</artifactId>
+		<version>29.0.0</version>
+	</dependency>
 	
 	<dependency>
 		<groupId>joda-time</groupId>

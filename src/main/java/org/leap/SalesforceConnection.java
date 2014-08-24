@@ -2,6 +2,8 @@ package org.leap;
 
 import java.net.URL;
 
+import com.sforce.soap.apex.Connector;
+import com.sforce.soap.apex.SoapConnection;
 import com.sforce.soap.metadata.MetadataConnection;
 import com.sforce.soap.partner.GetServerTimestampResult;
 import com.sforce.soap.partner.LoginResult;
@@ -22,6 +24,7 @@ public class SalesforceConnection {
 	private final LoginResult loginResult;
 	private final PartnerConnection partnerConnection;
 	private final MetadataConnection metadataConnection;
+	private final SoapConnection apexConnection;
 	
 	public SalesforceConnection(String username, String password, String token, String serverUrl) throws ConnectionException{
 		this.SFDC_USERNAME 	= username;
@@ -32,6 +35,7 @@ public class SalesforceConnection {
 		this.loginResult = this.loginToSalesforce();
 		this.partnerConnection = createPartnerConnection(this.loginResult);
 		this.metadataConnection = createMetadataConnection(this.loginResult);
+		this.apexConnection	= this.createApexConnection(loginResult);
 	}
 	
 	public SalesforceConnection(String username, String password, String token, OrgType type) throws ConnectionException{
@@ -43,6 +47,7 @@ public class SalesforceConnection {
 		this.loginResult = this.loginToSalesforce();
 		this.partnerConnection = createPartnerConnection(this.loginResult);
 		this.metadataConnection = createMetadataConnection(this.loginResult);
+		this.apexConnection	= this.createApexConnection(loginResult);
 	}
 	
 	public SalesforceConnection(URL url, String sessionId) throws ConnectionException{
@@ -59,6 +64,7 @@ public class SalesforceConnection {
         config.setSessionId(sessionId);
         this.partnerConnection = new PartnerConnection(config);
         this.metadataConnection = null;	//TODO fix this
+        this.apexConnection	= this.createApexConnection(loginResult);
 	}
 	
 	private LoginResult loginToSalesforce() throws ConnectionException {
@@ -84,6 +90,17 @@ public class SalesforceConnection {
 		return com.sforce.soap.metadata.Connector.newConnection(metadataConfig);
 	}
 	
+	private SoapConnection createApexConnection(final LoginResult loginResult) throws ConnectionException{
+		String sessionId = loginResult.getSessionId();		
+		String url = loginResult.getServerUrl().replaceAll("/u/", "/s/");
+		
+		final ConnectorConfig config = new ConnectorConfig();
+		config.setServiceEndpoint(url);
+		config.setSessionId(sessionId);
+        
+		return Connector.newConnection(config);
+	}
+	
 	public LoginResult getLoginResult(){
 		return this.loginResult;
 	}
@@ -94,6 +111,10 @@ public class SalesforceConnection {
 	
 	public MetadataConnection getMetadataConnection(){
 		return this.metadataConnection;
+	}
+	
+	public SoapConnection getApexConnection() {
+		return this.apexConnection;
 	}
 	
 	public boolean isValid(){
