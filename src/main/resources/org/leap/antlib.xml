@@ -1,9 +1,14 @@
 <antlib>
 	<typedef name="helloworld" classname="org.leap.HelloWorld"/>
 	<typedef name="leapsfields" classname="org.leap.SFieldsTask"/>
+	<typedef name="gensfields" classname="org.leap.SFieldsTask"/>
 	<typedef name="leaptriggers" classname="org.leap.TriggerTask"/>
+	<typedef name="gentriggers" classname="org.leap.TriggerTask"/>
 	<typedef name="leapwrappers" classname="org.leap.WrapperTask"/>
+	<typedef name="genwrappers" classname="org.leap.WrapperTask"/>
 	<typedef name="leapmetadiff" classname="org.leap.MetaDiffTask"/>
+	<typedef name="diff" classname="org.leap.MetaDiffTask"/>
 	<typedef name="lint" classname="org.leap.LintTask"/>
+	<typedef name="clean" classname="org.leap.CleanTask"/>
 	<typedef name="executeAnonymous" classname="org.leap.ExecuteAnonymousTask"/>		
 </antlib>
