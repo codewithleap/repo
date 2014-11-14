@@ -68,13 +68,14 @@ public class SalesforceConnection {
 	}
 	
 	private LoginResult loginToSalesforce() throws ConnectionException {
-        final ConnectorConfig config = new ConnectorConfig();
+		final ConnectorConfig config = new ConnectorConfig();
         config.setAuthEndpoint(SFDC_URL);
         config.setServiceEndpoint(SFDC_URL);
         config.setManualLogin(true);
-        return (new PartnerConnection(config)).login(SFDC_USERNAME, SFDC_PASSWORD + SFDC_TOKEN);
+        String password = (SFDC_URL.toLowerCase().contains("test.") ?  SFDC_PASSWORD : SFDC_PASSWORD + SFDC_TOKEN); 
+        return (new PartnerConnection(config)).login(SFDC_USERNAME, password);
     }
-		
+	
 	private PartnerConnection createPartnerConnection(final LoginResult loginResult) throws ConnectionException {
         final ConnectorConfig config = new ConnectorConfig();
         config.setServiceEndpoint(loginResult.getServerUrl());

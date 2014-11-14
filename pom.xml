@@ -65,6 +65,13 @@
 		<version>1.6.2</version>
 	</dependency>
 	
+	<!-- HttpClient for REST API calls -->
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>4.3.6</version>
+	</dependency>
+	
 	<!--  JSON Parsing -->	
 	<dependency>
 		<groupId>com.google.code.gson</groupId>
