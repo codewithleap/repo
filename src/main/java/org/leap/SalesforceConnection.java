@@ -72,7 +72,7 @@ public class SalesforceConnection {
         config.setAuthEndpoint(SFDC_URL);
         config.setServiceEndpoint(SFDC_URL);
         config.setManualLogin(true);
-        String password = (SFDC_URL.toLowerCase().contains("test.") ?  SFDC_PASSWORD : SFDC_PASSWORD + SFDC_TOKEN); 
+        String password = (SFDC_URL.toLowerCase().contains("test.") || SFDC_TOKEN==null ?  SFDC_PASSWORD : SFDC_PASSWORD + SFDC_TOKEN); 
         return (new PartnerConnection(config)).login(SFDC_USERNAME, password);
     }
 	

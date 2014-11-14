@@ -27,114 +27,69 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class RestClient extends Object {
-  private static BufferedReader reader = 
-      new BufferedReader(new InputStreamReader(System.in));
-  private static String OAUTH_ENDPOINT = "/services/oauth2/token";
-  private static String REST_ENDPOINT = "/services/data";
-  UserCredentials userCredentials;
-  String restUri;
-  Header oauthHeader;
-  Header prettyPrintHeader = new BasicHeader("X-PrettyPrint", "1");
-  Gson gson;
-  OAuth2Response oauth2Response;
+	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	private static String OAUTH_ENDPOINT = "/services/oauth2/token";
+	private static String REST_ENDPOINT = "/services/data";
+	private final SalesforceConnection connection;
+	UserCredentials userCredentials;
+	String restUri;
+	Header oauthHeader;
+	Header prettyPrintHeader = new BasicHeader("X-PrettyPrint", "1");
+	Gson gson = new Gson();
+	OAuth2Response oauth2Response;
 
-  public RestClient() {
-    gson = new Gson();
-  }
+	public RestClient() {
+		connection = null;
+	}
 
-  public HttpResponse oauth2Login(UserCredentials userCredentials) {
-    HttpResponse response = null;
-    this.userCredentials = userCredentials;
-    String loginHostUri = "https://" + 
-        userCredentials.loginInstanceDomain + OAUTH_ENDPOINT;
-    try {
-      HttpClient httpClient = new DefaultHttpClient();
-      HttpPost httpPost = new HttpPost(loginHostUri);
-      StringBuffer requestBodyText = 
-          new StringBuffer("grant_type=password");
-      requestBodyText.append("&username=");
-      requestBodyText.append(userCredentials.userName);
-      requestBodyText.append("&password=");
-      requestBodyText.append(userCredentials.password);
-      requestBodyText.append("&client_id=");
-      requestBodyText.append(userCredentials.consumerKey);
-      requestBodyText.append("&client_secret=");
-      requestBodyText.append(userCredentials.consumerSecret);
-      StringEntity requestBody = 
-          new StringEntity(requestBodyText.toString());
-      requestBody.setContentType("application/x-www-form-urlencoded");
-      httpPost.setEntity(requestBody);
-      httpPost.addHeader(prettyPrintHeader);
-      response = httpClient.execute(httpPost);
-      if (  response.getStatusLine().getStatusCode() == 200 ) {
-        InputStreamReader inputStream = new InputStreamReader( 
-            response.getEntity().getContent() 
-        );
-        oauth2Response = gson.fromJson( inputStream, 
-            OAuth2Response.class );
-        restUri = oauth2Response.instance_url + REST_ENDPOINT + 
-            "/v" + this.userCredentials.apiVersion +".0";
-        System.out.println("\nSuccessfully logged in to instance: " + 
-            restUri);
-        oauthHeader = new BasicHeader("Authorization", "OAuth " + 
-            oauth2Response.access_token);
-      } else {
-        System.out.println("An error has occured.");
-        System.exit(-1);
-      }
-    } catch (UnsupportedEncodingException uee) {
-      uee.printStackTrace();
-    } catch (IOException ioe) {
-      ioe.printStackTrace();
-    } catch (NullPointerException npe) {
-      npe.printStackTrace();
-    }
-    return response;
-  }
+	public RestClient(SalesforceConnection conn) {
+		connection = conn;
+	}
+	
+	public void setSessionID(String sessionId){
+		oauthHeader = new BasicHeader("Authorization", "Bearer " + sessionId);
+	}
   
-  public void setSessionID(String sessionId){
-	  oauthHeader = new BasicHeader("Authorization", "Bearer " + sessionId);
-  }
-  
-  public String restGet(String uri) {
-	  String result = "";
-	  printBanner("GET", uri);
-	  try {
-		  HttpClient httpClient = new DefaultHttpClient();
-		  HttpGet httpGet = new HttpGet(uri);
-		  httpGet.addHeader(oauthHeader);
-		  httpGet.addHeader(prettyPrintHeader);
-		  HttpResponse response = httpClient.execute(httpGet);
-		  result = getBody( response.getEntity().getContent() );
-	  } catch (IOException ioe) {
-		  ioe.printStackTrace();
-	  } catch (NullPointerException npe) {
-		  npe.printStackTrace();
-	  }
-	  return result;
-  }
+	public String restGet(String uri) {
+		String result = "";
+		printBanner("GET", uri);
+		try {
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpGet httpGet = new HttpGet(uri);
+			httpGet.addHeader(oauthHeader);
+			httpGet.addHeader(prettyPrintHeader);
+			
+			HttpResponse response = httpClient.execute(httpGet);
+			result = getBody( response.getEntity().getContent() );
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} catch (NullPointerException npe) {
+			npe.printStackTrace();
+		}
+		return result;
+	}
 
-  public String restPatch(String uri, String requestBody) {
-	  String result = "";
-	  printBanner("PATCH", uri);
-	  try {
-		  HttpClient httpClient = new DefaultHttpClient();
-		  HttpPatch httpPatch = new HttpPatch(uri);
-		  httpPatch.addHeader(oauthHeader);
-		  httpPatch.addHeader(prettyPrintHeader);
-		  StringEntity body = new StringEntity(requestBody);
-		  body.setContentType("application/json");
-		  httpPatch.setEntity(body);
-		  HttpResponse response = httpClient.execute(httpPatch);
-		  result = response.getEntity() != null ? 
+	public String restPatch(String uri, String requestBody) {
+		String result = "";
+		printBanner("PATCH", uri);
+		try {
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpPatch httpPatch = new HttpPatch(uri);
+			httpPatch.addHeader(oauthHeader);
+			httpPatch.addHeader(prettyPrintHeader);
+			StringEntity body = new StringEntity(requestBody);
+			body.setContentType("application/json");
+			httpPatch.setEntity(body);
+			HttpResponse response = httpClient.execute(httpPatch);
+			result = response.getEntity() != null ? 
 				  getBody( response.getEntity().getContent() ) : "";
-	  } catch (IOException ioe) {
-		  ioe.printStackTrace();
-	  } catch (NullPointerException npe) {
-		  npe.printStackTrace();
-	  }
-	  return result;
-  }
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} catch (NullPointerException npe) {
+			npe.printStackTrace();
+		}
+		return result;
+	}
 
   public String restPatchXml(String uri, String requestBody) {
 	  String result = "";
