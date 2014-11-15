@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.leap.CleanTask;
 import org.leap.SalesforceConnection;
 
+import com.sforce.soap.metadata.DeleteResult;
 import com.sforce.soap.partner.QueryResult;
 import com.sforce.soap.partner.SaveResult;
 import com.sforce.soap.partner.sobject.SObject;
@@ -38,7 +39,18 @@ public class CleanTaskTests {
 		Assert.assertNotNull(apex);
 		Assert.assertNotNull(apex.getId());
 		
-		//task.salesforceConnection().getMetadataConnection().delete(metadata)		
+		try {
+			com.sforce.soap.partner.DeleteResult[] deleteResults = task.salesforceConnection().getPartnerConnection().delete(new String[] {apex.getId()});
+			//DeleteResult[] deleteResults = task.salesforceConnection().getMetadataConnection().deleteMetadata("ApexClass", new String[] {"LEAP_MockObject"} );
+			for(com.sforce.soap.partner.DeleteResult result : deleteResults){
+				Assert.assertTrue( result.isSuccess() );
+			}
+		} catch (ConnectionException e) {
+			e.printStackTrace();
+		}		
+		
+		apex = this.getMockApexClass(task.salesforceConnection());
+		Assert.assertNull(apex);
 		
 		//Assert.assertNotNull(task.getLeapTemplate());
 		//Assert.assertNotNull(task.getLeapTemplate().content);
