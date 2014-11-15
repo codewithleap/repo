@@ -226,9 +226,8 @@ public class MetadataDeployer {
 						"ensure that MAX_NUM_POLL_REQUESTS is sufficient.");
 			}
 
-			asyncResult = metadataConnection.checkStatus(
-					new String[]{asyncResult.getId()})[0];
-			System.out.println("Deploy status is: " + asyncResult.getState());
+			DeployResult dResult = metadataConnection.checkDeployStatus(asyncResult.getId(), true);
+			System.out.println("Deploy status is: " + dResult.getStateDetail());
 		}
 
 		if (asyncResult.getState() != AsyncRequestState.Completed) {

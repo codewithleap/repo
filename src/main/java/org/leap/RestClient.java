@@ -1,19 +1,14 @@
 package org.leap;
 
-import java.awt.Desktop;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -22,40 +17,51 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
+@SuppressWarnings("deprecation")
 public class RestClient extends Object {
-	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-	private static String OAUTH_ENDPOINT = "/services/oauth2/token";
-	private static String REST_ENDPOINT = "/services/data";
+	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));	
 	private final SalesforceConnection connection;
-	UserCredentials userCredentials;
-	String restUri;
+	private final String API_VERSION = "v30.0";
+	//String restUri;
+	String sessionId;
 	Header oauthHeader;
 	Header prettyPrintHeader = new BasicHeader("X-PrettyPrint", "1");
 	Gson gson = new Gson();
-	OAuth2Response oauth2Response;
-
-	public RestClient() {
-		connection = null;
-	}
-
-	public RestClient(SalesforceConnection conn) {
-		connection = conn;
-	}
 	
-	public void setSessionID(String sessionId){
+	public RestClient(SalesforceConnection conn) {
+		connection 	= conn;
+		
+		sessionId 	= conn.getPartnerConnection().getSessionHeader().getSessionId();
+		sessionId 	= sessionId.split("!")[1];
+		
 		oauthHeader = new BasicHeader("Authorization", "Bearer " + sessionId);
 	}
   
-	public String restGet(String uri) {
+	public String getBaseURL(){
+		String restBaseURL = "https://";
+		try {
+			URI serverUri = new URI( connection.getLoginResult().getServerUrl() );
+			System.out.println("getHost() " + serverUri.getHost() );
+			restBaseURL += serverUri.getHost();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
+		restBaseURL += "/services/data/" + API_VERSION + "/";
+		return restBaseURL;
+	}
+	
+	public String restGet(String uriOffset) {
 		String result = "";
-		printBanner("GET", uri);
+		if(uriOffset.startsWith("/")){
+			uriOffset = uriOffset.substring(1);
+		}
+		String url = this.getBaseURL() + uriOffset;
+		printBanner("GET", url);
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
-			HttpGet httpGet = new HttpGet(uri);
+			HttpGet httpGet = new HttpGet(url);
 			httpGet.addHeader(oauthHeader);
 			httpGet.addHeader(prettyPrintHeader);
 			
@@ -147,39 +153,7 @@ public class RestClient extends Object {
 		  return "PATCH";
 	  }
   }
-
-  static class OAuth2Response {
-	  public OAuth2Response() {
-	  }
-	  String id;
-	  String issued_at;
-	  String instance_url;
-	  String signature;
-	  String access_token;
-  }
   
-  class UserCredentials {
-	  String grantType;
-	  String userName;
-	  String password;
-	  String consumerKey;
-	  String consumerSecret;
-	  String loginInstanceDomain;
-	  String apiVersion;
-  }
-
-  // private methods
-  private String getUserInput(String prompt) {
-	  String result = "";
-	  try {
-		  System.out.print(prompt);
-		  result = reader.readLine();
-	  } catch (IOException ioe) {
-		  ioe.printStackTrace();
-	  }
-	  return result;
-  }
-
   private void printBanner(String method, String uri) {
 	  System.out.println("\n--------------------------------------------------------------------\n");
 	  System.out.println("HTTP Method: " + method);
@@ -203,18 +177,5 @@ public class RestClient extends Object {
 		  ioe.printStackTrace();
 	  }
 	  return result;
-  }
-
-  private UserCredentials getUserCredentials() {
-	  UserCredentials userCredentials = new UserCredentials();
-	  userCredentials.loginInstanceDomain = 
-			  getUserInput("Login Instance Domain: ");
-	  userCredentials.apiVersion = getUserInput("API Version: ");
-	  userCredentials.userName = getUserInput("UserName: ");
-	  userCredentials.password = getUserInput("Password: ");
-	  userCredentials.consumerKey = getUserInput("Consumer Key: ");
-	  userCredentials.consumerSecret = getUserInput("Consumer Secret: ");
-	  userCredentials.grantType = "password";
-	  return userCredentials;
   }
 }

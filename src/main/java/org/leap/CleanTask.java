@@ -25,6 +25,18 @@ import com.sforce.ws.ConnectionException;
 
 public class CleanTask extends LeapTask {
 	
+	String metadataType = "";
+	public void setType(String t) { metadataType = t; }
+	public String getType(){ return metadataType; }
+	
+	String strStartsWith = "";
+    public void setStartsWith(String str) { strStartsWith = str; }
+    public String getStartsWith(){ return strStartsWith; }
+	
+    Boolean isTest = false;
+    public void setIsTest(Boolean setting){ isTest = setting; }
+    public Boolean getIsTest(){ return isTest; }
+    
     /*
      * Task goals.
      * Remove metadata prior to deploy.
@@ -64,7 +76,7 @@ public class CleanTask extends LeapTask {
 	public void execute() {
 		//this.doQuery();
 		//this.doApexClassQuery();
-		this.doToolingAPISandbox();
+		//this.doToolingAPISandbox();
 	}
 	
 	private void doQuery(){
@@ -98,9 +110,13 @@ public class CleanTask extends LeapTask {
 		try {
 			QueryResult result = this.salesforceConnection().getPartnerConnection().query(soql);
 			for(SObject obj : result.getRecords()){
+				if( !obj.getField("Name").toString().toLowerCase().startsWith("adm") ){
+					continue;
+				}
 				System.out.println("------------------------------------------------");
 				System.out.println("ApexClass: " + obj.getField("Name") );
-				System.out.println("ApexClass: " + obj.getField("Body") );
+				System.out.println("Id: " + obj.getId() );
+				System.out.println("Body: " + obj.getField("Body") );
 			}
 		} catch (ConnectionException e) {
 			e.printStackTrace();
@@ -131,6 +147,7 @@ public class CleanTask extends LeapTask {
 		HttpGet client = new HttpGet();
 		*/
 		
+		/*
 		System.out.println("Server URL: " + this.salesforceConnection().getLoginResult().getServerUrl() );
 		String restBaseURL = "https://";
 		try {
@@ -141,19 +158,21 @@ public class CleanTask extends LeapTask {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
+		*/
 		
-		String sessionId = this.salesforceConnection().getPartnerConnection().getSessionHeader().getSessionId();		
-		sessionId = sessionId.split("!")[1];
-		System.out.println("SessionId: " + sessionId);
+		//String sessionId = this.salesforceConnection().getPartnerConnection().getSessionHeader().getSessionId();		
+		//sessionId = sessionId.split("!")[1];
+		//System.out.println("SessionId: " + sessionId);
 		
-		restBaseURL += "/services/data/v29.0/sobjects/Account/";
+		//restBaseURL += "/services/data/v29.0/sobjects/Account/";
 		//String uri = this.serverurl + "/services/data/v29.0/sobjects/Account/";
-		RestClient client = new RestClient();
-		client.setSessionID(sessionId);
+		RestClient client = new RestClient( this.salesforceConnection() );
 		
-		String response = client.restGet(restBaseURL);
+		/*
+		String response = client.restGet(sobjects/Account/);
 		System.out.println("Response from URL " + restBaseURL);
 		System.out.println(response);
+		*/
 		
 		/*
 		 curl https://cs14.salesforce.com/services/data/v29.0/ -H 'Authorization: Bearer AQoAQKCCgWc8ixvHbrG3kq.2fgP._x5TD8V903Zq8rOdLeLJe3F0DV9b8z4g31xOsHB5WvCLRWE_GkAQZr.dPZARTFEDk8yY'

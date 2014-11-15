@@ -12,7 +12,7 @@ import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 
 public class SalesforceConnection {
-	public static final String API_VERSION	= "29.0";
+	public static final String API_VERSION	= "32.0";
 	private final String SFDC_USERNAME; 
     private final String SFDC_PASSWORD; 
     private final String SFDC_TOKEN;
@@ -31,7 +31,7 @@ public class SalesforceConnection {
 		this.SFDC_PASSWORD 	= password;
 		this.SFDC_TOKEN		= token;
 		this.SFDC_URL		= serverUrl + "/services/Soap/u/" + API_VERSION;
-				
+		
 		this.loginResult = this.loginToSalesforce();
 		this.partnerConnection = createPartnerConnection(this.loginResult);
 		this.metadataConnection = createMetadataConnection(this.loginResult);

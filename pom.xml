@@ -29,22 +29,22 @@
 	<dependency>
 		<groupId>com.force.api</groupId>
 		<artifactId>force-wsc</artifactId>
-		<version>29.0.0</version>
+		<version>32.0.0</version>
 	</dependency>
 	<dependency>
 		<groupId>com.force.api</groupId>
 		<artifactId>force-partner-api</artifactId>
-		<version>29.0.0</version>
+		<version>32.0.0</version>
 	</dependency>
 	<dependency>
 		<groupId>com.force.api</groupId>
 		<artifactId>force-metadata-api</artifactId>
-		<version>29.0.0</version>
+		<version>32.0.0</version>
 	</dependency>
 	<dependency>
 		<groupId>com.force.api</groupId>
 		<artifactId>force-apex-api</artifactId>
-		<version>29.0.0</version>
+		<version>32.0.0</version>
 	</dependency>
 	
 	<dependency>
