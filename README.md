@@ -87,6 +87,10 @@ From the command line of any Salesforce development environment:
 		&lt;leap:lint maxFileLines="500" ignoreFiles="(comma separated list of files to be ignored)" failonerror="true|false" /&gt;
 	&lt;/target&gt;	
 
+	&lt;target name="delete"&gt;
+		&lt;leap:deleteObjects query="SELECT Id FROM ApexClass WHERE Name Like 'SomePattern%Test'" failonerror="true|false" /&gt;
+	&lt;/target&gt;	
+
 	&lt;target name="execAnon"&gt;
 		&lt;leap:executeAnonymous code="MyApexClass.staticMethod();" failonerror="true|false" /&gt;
 	&lt;/target&gt;	
