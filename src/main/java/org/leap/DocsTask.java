@@ -47,6 +47,10 @@ public class DocsTask extends LeapTask {
 		this.createContent();
 	}
 
+	/*
+	 * TODO: Move all HTML to GitHub hosted templates (same pattern as SFields
+	 * and Trigger generation tasks)
+	 */
 	private void createIndex() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("<html>");
@@ -142,6 +146,9 @@ public class DocsTask extends LeapTask {
 		}
 	}
 
+	/*
+	 * TODO: Move all HTML to GitHub templates
+	 */
 	private String getApexClassContent(String id) {
 		RestClient client = new RestClient(this.salesforceConnection());
 		String url = "/tooling/sobjects/ApexClass/" + id;
