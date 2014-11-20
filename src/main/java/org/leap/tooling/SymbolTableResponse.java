@@ -21,8 +21,8 @@ public class SymbolTableResponse {
 	private String Status;
 	@Expose
 	private Boolean IsValid;
-	@Expose
-	private Integer BodyCrc;
+	// @Expose
+	// private Integer BodyCrc;
 	@Expose
 	private String Body;
 	@Expose
@@ -202,23 +202,20 @@ public class SymbolTableResponse {
 	 * 
 	 * @return The BodyCrc
 	 */
-	public Integer getBodyCrc() {
-		return BodyCrc;
-	}
-
+	/*
+	 * public Integer getBodyCrc() { return BodyCrc; }
+	 */
 	/**
 	 * 
 	 * @param BodyCrc
 	 *            The BodyCrc
 	 */
-	public void setBodyCrc(Integer BodyCrc) {
-		this.BodyCrc = BodyCrc;
-	}
-
-	public SymbolTableResponse withBodyCrc(Integer BodyCrc) {
-		this.BodyCrc = BodyCrc;
-		return this;
-	}
+	/*
+	 * public void setBodyCrc(Integer BodyCrc) { this.BodyCrc = BodyCrc; }
+	 * 
+	 * public SymbolTableResponse withBodyCrc(Integer BodyCrc) { this.BodyCrc =
+	 * BodyCrc; return this; }
+	 */
 
 	/**
 	 * 
