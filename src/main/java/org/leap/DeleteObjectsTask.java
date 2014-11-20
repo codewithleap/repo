@@ -21,37 +21,12 @@ public class DeleteObjectsTask extends LeapTask {
 	
     public void execute() {
     	try {
-			List<SObject> deleteObjects = this.getQueryObjects();
+			List<SObject> deleteObjects = this.query( this.getQuery() );
 			this.deleteObjects(deleteObjects);
 		} catch (ConnectionException e) {
 			e.printStackTrace();
 		}
     }
-    
-    public List<SObject> getQueryObjects() throws ConnectionException{
-		List<SObject> sObjects = new ArrayList<SObject>();
-		try {
-			QueryResult result = this.salesforceConnection().getPartnerConnection().query( this.getQuery() );
-			boolean done = false;
-			
-			if(result.getSize() > 0){
-				while(!done){
-					SObject[] records = result.getRecords();
-					for ( int i = 0; i < records.length; ++i ) {
-						sObjects.add(records[i]);
-					}
-					if (result.isDone()) {
-						done = true;
-					} else {
-						result = this.salesforceConnection().getPartnerConnection().queryMore(result.getQueryLocator());
-					}
-				}
-			}
-		} catch (ConnectionException e) {
-			e.printStackTrace();
-		}
-		return sObjects;
-	}
     
     public void deleteObjects(List<SObject> sobjectList){
     	// Delete records 200 at a time

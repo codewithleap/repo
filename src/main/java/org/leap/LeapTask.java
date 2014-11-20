@@ -8,6 +8,8 @@ import org.apache.tools.ant.Task;
 import com.sforce.soap.metadata.MetadataConnection;
 import com.sforce.soap.partner.DescribeGlobalResult;
 import com.sforce.soap.partner.DescribeGlobalSObjectResult;
+import com.sforce.soap.partner.QueryResult;
+import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 
 public class LeapTask extends Task {
@@ -245,5 +247,30 @@ public class LeapTask extends Task {
 			objectName = objectTokens[2];
 		}
 		return objectName.toUpperCase();
+	}
+	
+	public List<SObject> query(String soql) throws ConnectionException{
+		List<SObject> sObjects = new ArrayList<SObject>();
+		try {
+			QueryResult result = this.salesforceConnection().getPartnerConnection().query( soql );
+			boolean done = false;
+			
+			if(result.getSize() > 0){
+				while(!done){
+					SObject[] records = result.getRecords();
+					for ( int i = 0; i < records.length; ++i ) {
+						sObjects.add(records[i]);
+					}
+					if (result.isDone()) {
+						done = true;
+					} else {
+						result = this.salesforceConnection().getPartnerConnection().queryMore(result.getQueryLocator());
+					}
+				}
+			}
+		} catch (ConnectionException e) {
+			e.printStackTrace();
+		}
+		return sObjects;
 	}
 }
