@@ -30,9 +30,18 @@ public class DocsTask extends LeapTask {
 		return (this.getProjectRoot() + this.getOutputFolder());
 	}
 
+	private int maxFiles = -1;
+
+	public void setMaxFiles(int max) {
+		maxFiles = max;
+	}
+
+	public int getMaxFiles() {
+		return maxFiles;
+	}
+
 	@Override
 	public void execute() {
-		// RestClient rest = new RestClient( this.salesforceConnection() );
 		String outputPath = this.getProjectRoot() + this.getOutputFolder();
 		File outputDirectory = new File(outputPath);
 
@@ -70,7 +79,6 @@ public class DocsTask extends LeapTask {
 			PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 			writer.write(builder.toString());
 			writer.close();
-			System.out.println("Created " + fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
@@ -94,7 +102,6 @@ public class DocsTask extends LeapTask {
 			PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 			writer.write(builder.toString());
 			writer.close();
-			System.out.println("Created " + fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
@@ -104,7 +111,11 @@ public class DocsTask extends LeapTask {
 
 	public void createNavigation() {
 		StringBuilder builder = new StringBuilder();
+		int count = 0;
 		for (SObject obj : this.getAllApexClassDefinitions()) {
+			if (this.getMaxFiles() > -1 && count++ > this.getMaxFiles()) {
+				break;
+			}
 			String className = (String) obj.getField("Name");
 			builder.append("<a href=\"" + className
 					+ ".html\" target=\"content\">" + className + "</a><br/>");
@@ -127,7 +138,11 @@ public class DocsTask extends LeapTask {
 	}
 
 	public void createContent() {
+		int count = 0;
 		for (SObject obj : this.getAllApexClassDefinitions()) {
+			if (this.getMaxFiles() > -1 && count++ > this.getMaxFiles()) {
+				break;
+			}
 			String fileName = this.getProjectRoot() + this.getOutputFolder()
 					+ "/" + (String) obj.getField("Name") + ".html";
 			fileName = fileName.replace("//", "/");
@@ -159,7 +174,21 @@ public class DocsTask extends LeapTask {
 		try {
 			SymbolTableResponse response = gson.fromJson(jsonResponse,
 					SymbolTableResponse.class);
-			builder.append("<b>Methods</b><br/>");
+			builder.append("<h1>" + response.getFullName() + "</h1><br/>");
+			builder.append("<table>");
+			builder.append("<tr><td>Name: </td><td>" + response.getName()
+					+ "</td></tr>");
+			builder.append("<tr><td>Status: </td><td>" + response.getStatus()
+					+ "</td></tr>");
+			builder.append("<tr><td>API Version: </td><td>"
+					+ response.getApiVersion() + "</td></tr>");
+			builder.append("<tr><td>Created: </td><td>"
+					+ response.getCreatedDate() + "</td></tr>");
+			builder.append("<tr><td>Last Modified: </td><td>"
+					+ response.getLastModifiedDate() + "</td></tr>");
+			builder.append("</table>");
+
+			builder.append("<h2>Methods</h2>");
 			builder.append("<ul>");
 			for (Method meth : response.getSymbolTable().getMethods()) {
 				builder.append("<li>" + meth.getVisibility() + " "
@@ -172,6 +201,8 @@ public class DocsTask extends LeapTask {
 				builder.append("</li>");
 			}
 			builder.append("</ul>");
+			builder.append("<hr/>");
+			builder.append(jsonResponse);
 		} catch (Exception ex) {
 			builder.append(ex.getMessage());
 			builder.append(jsonResponse);
