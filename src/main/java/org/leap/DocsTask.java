@@ -196,49 +196,16 @@ public class DocsTask extends LeapTask {
 			builder.append("<script>var apexClass = " + jsonResponse + "</script>");
 			builder.append("<script>$( document ).ready(function() {DOCS.init();});</script>");
 			builder.append("</head>");
-			builder.append("<body><div id=\"container\"></div></body>");
+			builder.append("<body id=\"template\"></body>");
 			builder.append("</html>");
 			
-			/*
-			SymbolTableResponse response = gson.fromJson(jsonResponse,
-					SymbolTableResponse.class);
-			builder.append("<h1>" + response.getFullName() + "</h1><br/>");
-			builder.append("<table>");
-			builder.append("<tr><td>Name: </td><td>" + response.getName()
-					+ "</td></tr>");
-			builder.append("<tr><td>Status: </td><td>" + response.getStatus()
-					+ "</td></tr>");
-			builder.append("<tr><td>API Version: </td><td>"
-					+ response.getApiVersion() + "</td></tr>");
-			builder.append("<tr><td>Created: </td><td>"
-					+ response.getCreatedDate() + "</td></tr>");
-			builder.append("<tr><td>Last Modified: </td><td>"
-					+ response.getLastModifiedDate() + "</td></tr>");
-			builder.append("</table>");
-
-			builder.append("<h2>Methods</h2>");
-			builder.append("<ul>");
-			for (Method meth : response.getSymbolTable().getMethods()) {
-				builder.append("<li>" + meth.getVisibility() + " "
-						+ meth.getReturnType() + " " + meth.getName());
-				builder.append("(");
-				for (Object param : meth.getParameters()) {
-					builder.append(param.toString() + " ");
-				}
-				builder.append(")");
-				builder.append("</li>");
-			}
-			builder.append("</ul>");
-			builder.append("<hr/>");
-			builder.append(jsonResponse);
-			*/
 		} catch (Exception ex) {
-			builder.append(ex.getMessage());
+			builder.append(ex.getMessage() + "<hr/>");
 			builder.append(jsonResponse);
 		}
 		return builder.toString();
 	}
-
+	
 	private List<SObject> apexDefinitions = null;
 
 	public List<SObject> getAllApexClassDefinitions() {
