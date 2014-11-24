@@ -15,7 +15,8 @@ import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 
 public class DocsTask extends LeapTask {
-
+	public List<String> userIDList = new ArrayList<String>();
+	
 	private String outputFolder = "/docs";
 
 	public void setOutputFolder(String folder) {
@@ -57,6 +58,14 @@ public class DocsTask extends LeapTask {
 	}
 
 	/*
+	 * TODO Create JSON data indexes to group by Version.
+	 * High level JSON blob in home page.
+	 * 
+	 * Individual HTML Apex class pages just contain JSON response from tooling API.
+	 * Client-side JS renders the page.
+	 */
+	
+	/*
 	 * TODO: Move all HTML to GitHub hosted templates (same pattern as SFields
 	 * and Trigger generation tasks)
 	 */
@@ -89,6 +98,7 @@ public class DocsTask extends LeapTask {
 	private void createHome() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("<html>");
+		builder.append("<head><link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\"></head>");
 		builder.append("<body>");
 		builder.append("<h1>Welcome</h1> Click on a class on the left to view Apex class details.");
 		builder.append("</body>");
@@ -111,6 +121,11 @@ public class DocsTask extends LeapTask {
 
 	public void createNavigation() {
 		StringBuilder builder = new StringBuilder();
+		
+		builder.append("<html><head>");
+		builder.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">");
+		builder.append("</head><body>");
+		
 		int count = 0;
 		for (SObject obj : this.getAllApexClassDefinitions()) {
 			if (this.getMaxFiles() > -1 && count++ > this.getMaxFiles()) {
@@ -120,11 +135,12 @@ public class DocsTask extends LeapTask {
 			builder.append("<a href=\"" + className
 					+ ".html\" target=\"content\">" + className + "</a><br/>");
 		}
+		builder.append("</body></html>");
 
 		String fileName = this.getProjectRoot() + this.getOutputFolder()
 				+ "/navigation.html";
 		fileName = fileName.replace("//", "/");
-
+		
 		try {
 			PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 			writer.write(builder.toString());
@@ -152,7 +168,6 @@ public class DocsTask extends LeapTask {
 				PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 				writer.write(this.getApexClassContent(obj.getId()));
 				writer.close();
-				System.out.println("Created " + fileName);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
@@ -172,6 +187,19 @@ public class DocsTask extends LeapTask {
 		StringBuilder builder = new StringBuilder();
 
 		try {
+			builder.append("<html>");
+			builder.append("<head>");
+			builder.append("<script src=\"jquery.js\"></script>");
+			builder.append("<script src=\"docs.js\"></script>");
+			builder.append("<script src=\"templates.js\"></script>");
+			builder.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">");
+			builder.append("<script>var apexClass = " + jsonResponse + "</script>");
+			builder.append("<script>$( document ).ready(function() {DOCS.init();});</script>");
+			builder.append("</head>");
+			builder.append("<body><div id=\"container\"></div></body>");
+			builder.append("</html>");
+			
+			/*
 			SymbolTableResponse response = gson.fromJson(jsonResponse,
 					SymbolTableResponse.class);
 			builder.append("<h1>" + response.getFullName() + "</h1><br/>");
@@ -203,6 +231,7 @@ public class DocsTask extends LeapTask {
 			builder.append("</ul>");
 			builder.append("<hr/>");
 			builder.append(jsonResponse);
+			*/
 		} catch (Exception ex) {
 			builder.append(ex.getMessage());
 			builder.append(jsonResponse);

@@ -1,5 +1,7 @@
 package tests;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.leap.DocsTask;
 
@@ -13,8 +15,10 @@ public class DocsTaskTests {
 		task.setToken(System.getenv("SALESFORCE_TOKEN"));
 		task.setServerurl(System.getenv("SALESFORCE_SERVER_URL"));
 		task.setProjectRoot(System.getenv("PROJECT_ROOT"));
-		task.setMaxFiles(10); // Limit the number of files rendered for tests.
+		//task.setMaxFiles(10); // Limit the number of files rendered for tests.
 
+		Assert.assertTrue( task.salesforceConnection().isValid() );
+		
 		task.execute();
 	}
 }
