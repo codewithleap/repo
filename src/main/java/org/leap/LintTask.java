@@ -39,7 +39,7 @@ public class LintTask extends LeapTask {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally{
-			if(hasLintError && this.getFailOnError()){
+			if(hasLintError && this.failOnError()){
 				System.exit(1); // Use with ant task failonerror="true" to stop builds when lint errors found.
 			}
 		}

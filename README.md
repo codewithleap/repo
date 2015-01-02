@@ -94,13 +94,16 @@ From the command line of any Salesforce development environment:
 	&lt;target name="execAnon"&gt;
 		&lt;leap:executeAnonymous code="MyApexClass.staticMethod();" failonerror="true|false" /&gt;
 	&lt;/target&gt;	
+
+	&lt;target name="runtests"&gt;
+		&lt;leap:runtests classes="MyApexClass,MyApexClass_Tests" regex="regex matching pattern" failonerror="true|false" /&gt;
+	&lt;/target&gt;
 &lt;/project&gt;
 </pre>
 
 <h2>Attributes</h2>
 Notes on attributes.
 failonerror: When set to "true" will stop the build process.
-
 
 <h2>Open Source</h2>
 Leap is open sourced under the BSD license.
