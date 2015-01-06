@@ -105,6 +105,10 @@ From the command line of any Salesforce development environment:
 Notes on attributes.
 failonerror: When set to "true" will stop the build process.
 
+<h2>Proxy Confguration</h2
+To connect to Salesforce using a proxy, define an environment variable named HTTPS_PROXY in the format host:port.
+Example: proxy.internal.domain.com:8080
+
 <h2>Open Source</h2>
 Leap is open sourced under the BSD license.
 
