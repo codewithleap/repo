@@ -32,13 +32,17 @@ public class RunTestsTask extends LeapTask {
 	@Override
 	public void execute() {
 		try {
-			this.doApexClassMatch();
+			if (!this.salesforceConnection().isValid()) {
+				System.err.println("Salesforce connection not valid. Exiting.");
+				System.exit(1);
+			}
+			this.runTestsWithApexQuery();
 		} catch (ConnectionException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void doApexClassMatch() throws ConnectionException {
+	private void runTestsWithApexQuery() throws ConnectionException {
 		List<String> declaredClassNames = this.getClassNames();
 		List<String> classList = new ArrayList<String>();
 		System.out.println("Declared classes to test: ");
