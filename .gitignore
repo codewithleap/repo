@@ -1,5 +1,6 @@
 build.properties.dev
 .settings
+dev/
 config/
 lib/
 target/
