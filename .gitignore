@@ -13,3 +13,4 @@ src/test/classes/
 *.cls-meta.xml
 *.trigger
 *.trigger-meta.xml
+.DS_Store

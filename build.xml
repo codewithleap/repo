@@ -33,7 +33,11 @@
 			srcUsername="${sf.src.username}" srcPassword="${sf.src.password}" srcToken="${sf.src.token}" srcServerurl="${sf.src.url}" 
 			srcFolder="${src.folder}" destFolder="${dest.folder}" outFolder="${out.folder}" />
 	</target>
-			
+
+	<target name="compileAndTest">
+		<leap:compileandtest username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" files="FileName" />
+	</target>
+	
     <target name="pushdev">
       <sf:deploy username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" deployRoot="src/">
       </sf:deploy>

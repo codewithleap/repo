@@ -10,5 +10,6 @@
 	<typedef name="diff" classname="org.leap.MetaDiffTask"/>
 	<typedef name="lint" classname="org.leap.LintTask"/>
 	<typedef name="deleteObjects" classname="org.leap.DeleteObjectsTask"/>
-	<typedef name="executeAnonymous" classname="org.leap.ExecuteAnonymousTask"/>		
+	<typedef name="executeAnonymous" classname="org.leap.ExecuteAnonymousTask"/>
+	<typedef name="runtests" classname="org.leap.RunTestsTask"/>
 </antlib>

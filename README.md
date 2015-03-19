@@ -88,12 +88,16 @@ From the command line of any Salesforce development environment:
 	&lt;/target&gt;	
 
 	&lt;target name="delete"&gt;
-		&lt;leap:deleteObjects query="SELECT Id FROM ApexClass WHERE Name Like 'SomePattern%Test'" failonerror="true|false" /&gt;
+		&lt;leap:deleteObjects query="SELECT Id FROM ApexClass WHERE Name Like 'SomePattern%Test'" failonerror="true|false" username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" se    rverurl="${sf.dev.url}" /&gt;
 	&lt;/target&gt;	
 
 	&lt;target name="execAnon"&gt;
-		&lt;leap:executeAnonymous code="MyApexClass.staticMethod();" failonerror="true|false" /&gt;
+		&lt;leap:executeAnonymous code="MyApexClass.staticMethod();" failonerror="true|false" username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" se    rverurl="${sf.dev.url}" /&gt;
 	&lt;/target&gt;	
+
+	&lt;target name="runtests"&gt;
+		&lt;leap:runtests classes="MyApexClass,MyApexClass_Tests" regex="regex matching pattern" username="${sf.dev.username}" password="${sf.dev.password}" token="${sf.dev.token}" serverurl="${sf.dev.url}" failonerror="true|false" /&gt;
+	&lt;/target&gt;
 &lt;/project&gt;
 </pre>
 
@@ -101,6 +105,9 @@ From the command line of any Salesforce development environment:
 Notes on attributes.
 failonerror: When set to "true" will stop the build process.
 
+<h2>Proxy Confguration</h2>
+To connect to Salesforce using a proxy, define an environment variable named HTTPS_PROXY in the format host:port.
+Example: proxy.internal.domain.com:8080
 
 <h2>Open Source</h2>
 Leap is open sourced under the BSD license.
