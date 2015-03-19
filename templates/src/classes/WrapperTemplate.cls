@@ -1,22 +1,22 @@
-public with sharing class SFDC{{formatted_name}} extends LeapWrapperBase {
+public with sharing class {{namespace}}{{formatted_name}} extends LeapWrapperBase {
 	public {{object_name}} record   = null;
 	public static final String SFIELDS = LeapSFields.ALL_{{formatted_name}}_FIELDS;
     
-	public SFDC{{formatted_name}}(){}
+	public {{namespace}}{{formatted_name}}(){}
 	
-	public SFDC{{formatted_name}} withSObject({{object_name}} record){
+	public {{namespace}}{{formatted_name}} withSObject({{object_name}} record){
 		this.record = record;
 		this.id = record.Id;
 		return this;
 	}
 	
-	public SFDC{{formatted_name}} withId(ID recordId){
+	public {{namespace}}{{formatted_name}} withId(ID recordId){
 		id = recordId;
 		record = Database.query('SELECT ' + SFIELDS + ' FROM {{object_name}} WHERE Id=:id LIMIT 1');
 		return this;
 	}
 	
-	public SFDC{{formatted_name}} validate(){
+	public {{namespace}}{{formatted_name}} validate(){
 		this.errors.clear();
 		/*
 		Validate fields here.
@@ -27,7 +27,7 @@ public with sharing class SFDC{{formatted_name}} extends LeapWrapperBase {
 		return this;
 	}
 	
-	public SFDC{{formatted_name}} doSomething(){
+	public {{namespace}}{{formatted_name}} doSomething(){
 		return this;
 	}
 	

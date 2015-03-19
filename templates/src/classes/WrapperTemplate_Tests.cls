@@ -1,5 +1,5 @@
 @IsTest
-public with sharing class SFDC{{formatted_name}}_Tests {
+public with sharing class {{namespace}}{{formatted_name}}_Tests {
 
         public static testMethod void objectTests(){           
                 /*
